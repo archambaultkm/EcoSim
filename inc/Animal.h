@@ -5,35 +5,65 @@
 #ifndef ECOSIM_ANIMAL_H
 #define ECOSIM_ANIMAL_H
 
-
 #include <vector>
 using namespace std;
+
+struct Point {
+private:
+    int x;
+    int y;
+public:
+    Point() {
+        this->x = 0;
+        this->y = 0;
+    }
+
+    Point(int x, int y) {
+        this->x = x;
+        this->y = y;
+    }
+
+    void setX(int x) {
+        this->x = x;
+    }
+
+    int getX() {
+        return x;
+    }
+
+    void setY(int y) {
+        this->y = y;
+    }
+
+    int getY() {
+        return y;
+    }
+};
 
 class Animal {
 private:
     //static int id; might need this to keep track of how many animals but idk
     bool isAlive;
-    int xCoord;
-    int yCoord;
+    Point location;
+    vector<Point> possibleMoves;
+    char symbol;
 
 public:
 
-    Animal();
-    Animal(int xCoord, int yCoord);
+    //Animal();
+    Animal(Point point, char symbol);
     ~Animal();
-
-//    int getID();
-//    void setID(int id);
 
     bool getAliveStatus();
     void setAliveStatus(bool alive);
 
-    int getXCoord();
-    void setXCoord(int xCoord);
+    Point getLocation();
+    void setLocation(Point newLocation);
 
-    int getYCoord();
-    void setYCoord(int yCoord);
+    vector<Point> getPossibleMoves();
+    void setPossibleMoves(vector<Point> possibleMoves);
 
+    virtual char getSymbol() = 0;
     virtual void move() = 0;
 };
 

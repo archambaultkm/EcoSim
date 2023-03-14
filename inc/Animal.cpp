@@ -5,13 +5,13 @@
 #include "Animal.h"
 
 //--------------------------------Constructors--------------------------------//
+//
+//Animal::Animal():
+//isAlive(true), location(0,0)
+//{}
 
-Animal::Animal():
-isAlive(true), xCoord(0), yCoord(0)
-{}
-
-Animal::Animal(int xCoord, int yCoord):
-isAlive(true), xCoord(xCoord), yCoord(yCoord)
+Animal::Animal(Point point, char symbol):
+isAlive(true), location(point), symbol(symbol)
 {}
 
 Animal::~Animal(){
@@ -28,18 +28,19 @@ void Animal::setAliveStatus(bool alive) {
     this->isAlive = alive;
 }
 
-int Animal::getXCoord() {
-    return xCoord;
+Point Animal::getLocation() {
+    return location;
 }
 
-void Animal::setXCoord(int xCoord) {
-    this->xCoord = xCoord;
+void Animal::setLocation(Point point) {
+    this->location = point;
 }
 
-int Animal::getYCoord() {
-    return yCoord;
+vector<Point> Animal::getPossibleMoves() {
+    return possibleMoves;
 }
 
-void Animal::setYCoord(int yCoord) {
-    this->yCoord = yCoord;
+//this probably isn't how I want to do this, I'll need a method anyway to calculate it (but maybe not)
+void Animal::setPossibleMoves(vector<Point> possibleMoves) {
+    this->possibleMoves = possibleMoves;
 }

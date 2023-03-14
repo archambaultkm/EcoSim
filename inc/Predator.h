@@ -11,19 +11,18 @@
 class Predator : public Animal {
 private:
     int hunger;
-    vector<vector<int>> possibleMoves;
+    static const char symbol = 'x';
 
 public:
 
-    Predator();
-    Predator(int xCoord, int yCoord);
+    //Predator();
+    Predator(Point point);
     ~Predator();
 
     int getHunger();
     void setHunger(int hunger);
 
-    vector<vector<int>> getPossibleMoves();
-    void setPossibleMoves(vector<vector<int>> possibleMoves);
+    char getSymbol() override;
 
     void move() override;
 

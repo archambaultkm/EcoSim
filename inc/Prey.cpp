@@ -6,12 +6,22 @@
 
 //--------------------------------Constructors--------------------------------//
 
-Prey::Prey():Animal()
-{}
+//Prey::Prey():Animal()
+//{}
 
-Prey::Prey(int xCoord, int yCoord) : Animal(xCoord, yCoord)
+Prey::Prey(Point point) : Animal(point, symbol)
 {}
 
 Prey::~Prey() {}
 
 //------------------------------Getters/Setters--------------------------------//
+
+//------------------------------Class Methods--------------------------------//
+
+void Prey::move() {
+    //pick a random spot out of the possibleMoves vector
+}
+
+char Prey::getSymbol() {
+    return symbol;
+}

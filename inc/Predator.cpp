@@ -6,11 +6,11 @@
 
 //--------------------------------Constructors--------------------------------//
 
-Predator::Predator():Animal(),
-hunger(0)
-{}
+//Predator::Predator():Animal(),
+//hunger(0)
+//{}
 
-Predator::Predator(int xCoord, int yCoord) : Animal(xCoord, yCoord),
+Predator::Predator(Point point) : Animal(point, symbol),
 hunger(0)
 {}
 
@@ -26,13 +26,8 @@ void Predator::setHunger(int hunger) {
     this->hunger = hunger;
 }
 
-vector<vector<int>> Predator::getPossibleMoves() {
-    return possibleMoves;
-}
-
-//this probably isn't how I want to do this, I'll need a method anyway to calculate it (but maybe not)
-void Predator::setPossibleMoves(vector<vector<int>> possibleMoves) {
-    this->possibleMoves = possibleMoves;
+char Predator::getSymbol() {
+    return symbol;
 }
 
 //------------------------------Class Methods--------------------------------//

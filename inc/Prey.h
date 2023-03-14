@@ -10,16 +10,18 @@
 
 class Prey : public Animal {
 private:
-    vector<vector<int>> possibleMoves;
+
+    static const char symbol = 'o';
 
 public:
 
     Prey();
-    Prey(int xCoord, int yCoord);
+    Prey(Point point);
     ~Prey();
 
-    void move() override;
+    char getSymbol() override;
 
+    void move() override;
 };
 
 
