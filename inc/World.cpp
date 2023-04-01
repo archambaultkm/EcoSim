@@ -3,6 +3,8 @@
 //
 
 #include "World.h"
+#include "Prey.h"
+#include "Predator.h"
 
 //--------------------------------Constructors--------------------------------//
 
@@ -32,6 +34,15 @@ Point World::randomPoint() {
     return point;
 }
 
+bool World::pointEmpty(Point point) {
+
+    //need to do an out-of-bounds check before looking into the world array
+    if (point.getX() < 0 || point.getY() < 0 || point.getX() > WORLD_SIZE || point.getY() > WORLD_SIZE)
+        return false;
+
+    return (world[point.getX()][point.getY()] == nullptr);
+}
+
 void World::populateWorld() {
 
     //TODO this needs to be done in quadrants to minimize bias
@@ -56,7 +67,7 @@ void World::populateWorld() {
             }
         }
         //make the new prey
-        Organism* prey = new Prey(point);
+        Organism* prey = new Prey(point, this);
 
         //set them in the world
         world[point.getX()][point.getY()] = prey;
@@ -79,10 +90,23 @@ void World::populateWorld() {
             }
         }
         //make the new predator
-        Organism* predator = new Predator(point);
+        Organism* predator = new Predator(point, this);
 
         //set them in the world
         world[point.getX()][point.getY()] = predator;
+    }
+}
+
+void World::removeOrganismAt(Point point) {
+
+    world[point.getX()][point.getY()] = nullptr;
+}
+
+void World::placeOrganismAt(Point point, Organism* movedOrganism) {
+
+    if(pointEmpty(point)) {
+        delete world[point.getX()][point.getY()];
+        world[point.getX()][point.getY()] = movedOrganism;
     }
 }
 
@@ -93,7 +117,20 @@ void World::takeTurns() {
 
             if (world[i][j] != nullptr) {
 
-                world[i][j]->move();
+                world[i][j]->turn();
+            }
+        }
+    }
+}
+
+void World::resetFlags() {
+
+    for (int i=0;i<WORLD_SIZE;i++) {
+        for (int j=0;j<WORLD_SIZE;j++) {
+
+            if (world[i][j] != nullptr) {
+
+                world[i][j]->setMoved(false);
             }
         }
     }

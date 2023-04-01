@@ -7,7 +7,6 @@
 
 #include "Organism.h"
 
-
 #define PREY_MOVE_POINTS 4
 
 class Prey : public Organism {
@@ -16,11 +15,14 @@ private:
 
 public:
 
-    Prey();
-    explicit Prey(Point point);
-    ~Prey();
-    char getSymbol() override;
+    //-------------------Constructors-------------------//
+    Prey(Point point, World* worldptr);
+    virtual ~Prey();
 
+    //-------------------Getters/Setters-------------------//
+    void setPossibleMoves() override;
+
+    //-------------------Member Functions-------------------//
     void turn() override;
     void move() override;
     void recruit();

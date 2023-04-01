@@ -5,16 +5,19 @@
 #ifndef ECOSIM_ORGANISM_H
 #define ECOSIM_ORGANISM_H
 
+#include "GameSpecs.h"
 #include "Point.h"
-//#include "World.h"
 
 #include <vector>
 using namespace std;
 
-class Organism {
-private:
+//define it here rather than including the world header so that you don't break things
+class World;
 
-    //WorldPtr thisWorld;
+class Organism {
+protected:
+
+    World* thisWorld;
     bool isAlive;
     bool moved;
     Point location;
@@ -25,25 +28,17 @@ public:
 
     //-------------------Constructors-------------------//
     Organism();
-    Organism(Point point, char symbol);
-    ~Organism();
+    Organism(Point point, World* worldptr, char symbol);
+    virtual ~Organism();
 
     //-------------------Getters/Setters-------------------//
-    bool getAliveStatus();
-    void setAliveStatus(bool alive);
-
-    Point getLocation();
-    void setLocation(Point newLocation);
-
-    PointVector getPossibleMoves();
-    void setPossibleMoves(PointVector possibleMoves);
-
-    virtual char getSymbol() = 0;
+    virtual void setPossibleMoves() = 0;
+    void setMoved(bool moved);
+    char getSymbol();
 
     //-------------------Member Functions-------------------//
     virtual void turn() = 0;
     virtual void move() = 0;
 };
-
 
 #endif //ECOSIM_ORGANISM_H

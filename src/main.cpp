@@ -10,14 +10,18 @@ int main() {
     //populate with both predators and prey
     world->populateWorld();
 
-    //here needs to loop
-    cout << *world;
+    for (int i=0;i<10;i++) {
+        //here needs to loop
+        cout << *world;
 
-    this_thread::sleep_for(5s);
+        this_thread::sleep_for(1s);
 
-    world->takeTurns();
+        world->takeTurns();
+        world->resetFlags();
 
-    cout << *world;
+        //"clear screen"
+        cout << "\n";
+    }
 
     return 0;
 }

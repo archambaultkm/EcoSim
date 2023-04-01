@@ -17,19 +17,19 @@ private:
 
 public:
 
-    Predator();
-    explicit Predator(Point point);
-    ~Predator();
+    //-------------------Constructors-------------------//
+    Predator(Point point, World* worldptr);
+    virtual ~Predator();
 
+    //-------------------Getters/Setters-------------------//
     int getHunger();
     void setHunger(int hunger);
-
-    char getSymbol() override;
-
+    bool isStarving();
+    void setPossibleMoves() override;
+    //-------------------Member Functions-------------------//
     void turn() override;
     void move() override;
     void eat();
-    bool isStarving();
 };
 
 

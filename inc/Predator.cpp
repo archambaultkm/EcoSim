@@ -6,11 +6,7 @@
 
 //--------------------------------Constructors--------------------------------//
 
-Predator::Predator():Organism(),
-hunger(0)
-{}
-
-Predator::Predator(Point point) : Organism(point, symbol),
+Predator::Predator(Point point, World* worldptr) : Organism(point, worldptr, symbol),
     hunger(0)
 {}
 
@@ -26,8 +22,17 @@ void Predator::setHunger(int hunger) {
     this->hunger = hunger;
 }
 
-char Predator::getSymbol() {
-    return symbol;
+void Predator::setPossibleMoves() {
+
+    //TODO let them move diagonally too
+    PointVector possibleMoves;
+
+    possibleMoves.push_back(*new Point(location.getX()-1, location.getY()));
+    possibleMoves.push_back(*new Point(location.getX()+1, location.getY()));
+    possibleMoves.push_back(*new Point(location.getX(), location.getY()-1));
+    possibleMoves.push_back(*new Point(location.getX(), location.getY()+1));
+
+    this->possibleMoves = possibleMoves;
 }
 
 //------------------------------Class Methods--------------------------------//

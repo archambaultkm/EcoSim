@@ -6,16 +6,15 @@
 #define ECOSIM_WORLD_H
 
 #include "Point.h"
-#include "Prey.h"
-#include "Predator.h"
+#include "GameSpecs.h"
+//#include "Prey.h"
+//#include "Predator.h"
 
 #include <iostream>
 #include <random>
 using namespace std;
 
-#define WORLD_SIZE 20
-#define STARTING_PREY 30
-#define STARTING_PREDATORS 5
+class Organism;
 
 class World {
 
@@ -24,12 +23,21 @@ private:
     Point randomPoint();
 
 public:
+    //-------------------Constructors-------------------//
     World();
+
+    //-------------------Getters/Setters-------------------//
+
+    //-------------------Member Functions-------------------//
     void populateWorld();
+    bool pointEmpty(Point point);
+    void removeOrganismAt(Point point);
+    void placeOrganismAt(Point point, Organism* movedOrganism);
+    void moveOrganisms();
     void takeTurns();
+    void resetFlags();
+
     friend ostream& operator<<(ostream &output, const World& world);
 };
-
-typedef World* WorldPtr;
 
 #endif //ECOSIM_WORLD_H

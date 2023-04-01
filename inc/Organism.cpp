@@ -6,40 +6,22 @@
 
 //--------------------------------Constructors--------------------------------//
 
-Organism::Organism():
-isAlive(true), location(0,0)
+Organism::Organism(Point point, World* world, char symbol):
+isAlive(true), location(point), thisWorld(world), symbol(symbol), moved(false)
 {}
 
-Organism::Organism(Point point, char symbol):
-isAlive(true), location(point), symbol(symbol)
-{}
-
-Organism::~Organism(){
-    //could maybe echo "animal [ID] has died" idk
-}
+Organism::~Organism() = default;
 
 //------------------------------Getters/Setters--------------------------------//
-bool Organism::getAliveStatus() {
-    return isAlive;
+
+char Organism::getSymbol() {
+    return symbol;
 }
 
-void Organism::setAliveStatus(bool alive) {
-    this->isAlive = alive;
-}
-
-Point Organism::getLocation() {
-    return location;
-}
-
-void Organism::setLocation(Point point) {
-    this->location = point;
-}
-
-PointVector Organism::getPossibleMoves() {
-    return possibleMoves;
-}
-
-//this probably isn't how I want to do this, I'll need a method anyway to calculate it (but maybe not)
-void Organism::setPossibleMoves(PointVector possibleMoves) {
+void Organism::setPossibleMoves() {
     this->possibleMoves = possibleMoves;
+}
+
+void Organism::setMoved(bool moved) {
+    this->moved = moved;
 }
