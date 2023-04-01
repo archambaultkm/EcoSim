@@ -5,24 +5,25 @@
 #ifndef ECOSIM_PREY_H
 #define ECOSIM_PREY_H
 
+#include "Organism.h"
 
-#include "Animal.h"
 
-class Prey : public Animal {
+#define PREY_MOVE_POINTS 4
+
+class Prey : public Organism {
 private:
-
-    static const char symbol = 'o';
+    static const char symbol = 'h';
 
 public:
 
     Prey();
-    Prey(Point point);
+    explicit Prey(Point point);
     ~Prey();
-
     char getSymbol() override;
 
+    void turn() override;
     void move() override;
+    void recruit();
 };
-
 
 #endif //ECOSIM_PREY_H

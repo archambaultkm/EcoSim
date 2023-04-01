@@ -2,45 +2,44 @@
 // Created by Kaitlyn Archambault on 2023-03-11.
 //
 
-#include "Animal.h"
+#include "Organism.h"
 
 //--------------------------------Constructors--------------------------------//
-//
-//Animal::Animal():
-//isAlive(true), location(0,0)
-//{}
 
-Animal::Animal(Point point, char symbol):
+Organism::Organism():
+isAlive(true), location(0,0)
+{}
+
+Organism::Organism(Point point, char symbol):
 isAlive(true), location(point), symbol(symbol)
 {}
 
-Animal::~Animal(){
+Organism::~Organism(){
     //could maybe echo "animal [ID] has died" idk
 }
 
 //------------------------------Getters/Setters--------------------------------//
-
-bool Animal::getAliveStatus() {
+bool Organism::getAliveStatus() {
     return isAlive;
 }
 
-void Animal::setAliveStatus(bool alive) {
+void Organism::setAliveStatus(bool alive) {
     this->isAlive = alive;
 }
 
-Point Animal::getLocation() {
+Point Organism::getLocation() {
     return location;
 }
 
-void Animal::setLocation(Point point) {
+void Organism::setLocation(Point point) {
     this->location = point;
 }
 
-vector<Point> Animal::getPossibleMoves() {
+PointVector Organism::getPossibleMoves() {
     return possibleMoves;
 }
 
 //this probably isn't how I want to do this, I'll need a method anyway to calculate it (but maybe not)
-void Animal::setPossibleMoves(vector<Point> possibleMoves) {
+void Organism::setPossibleMoves(PointVector possibleMoves) {
     this->possibleMoves = possibleMoves;
 }

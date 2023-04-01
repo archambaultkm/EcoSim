@@ -5,18 +5,20 @@
 #ifndef ECOSIM_PREDATOR_H
 #define ECOSIM_PREDATOR_H
 
+#include "Organism.h"
 
-#include "Animal.h"
+#define PREDATOR_MOVE_POINTS 8
+#define TURNS_TO_STARVE 3
 
-class Predator : public Animal {
+class Predator : public Organism {
 private:
     int hunger;
-    static const char symbol = 'x';
+    const static char symbol = 'z';
 
 public:
 
-    //Predator();
-    Predator(Point point);
+    Predator();
+    explicit Predator(Point point);
     ~Predator();
 
     int getHunger();
@@ -24,8 +26,10 @@ public:
 
     char getSymbol() override;
 
+    void turn() override;
     void move() override;
-
+    void eat();
+    bool isStarving();
 };
 
 
