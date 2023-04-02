@@ -8,7 +8,8 @@
 
 //--------------------------------Constructors--------------------------------//
 
-World::World() {
+World::World():
+preyCount(0), predatorCount(0) {
 
     //create an empty world:
     for (int i=0;i<WORLD_SIZE;i++) {
@@ -19,12 +20,26 @@ World::World() {
     }
 }
 
+World::~World() = default;
+
 //------------------------------Getters/Setters--------------------------------//
-Organism* World::getOrganism(Point point) {
-    return world[point.getX()][point.getY()];
+int World::getPreyCount() const {
+    return preyCount;
+}
+
+int World::getPredatorCount() const {
+    return predatorCount;
+}
+
+bool World::hasDiversity() const {
+    return (preyCount > 0 && predatorCount > 0);
 }
 
 bool World::containsPrey(Point point) {
+
+    if (point.getX() < 0 || point.getY() < 0 || point.getX() > WORLD_SIZE - 1 || point.getY() > WORLD_SIZE - 1)
+        return false;
+
     if (world[point.getX()][point.getY()] != nullptr)
         return (world[point.getX()][point.getY()]->getSymbol() == 'h');
 
@@ -59,9 +74,6 @@ bool World::pointEmpty(Point point) {
 void World::populateWorld() {
 
     Point point;
-    //TODO these could be world member variables for printing out total number of organisms on a turn
-    int preyCount = 0;
-    int predatorCount = 0;
 
     //prey
     while (preyCount < STARTING_PREY) {
@@ -97,6 +109,15 @@ void World::removeOrganismAt(Point point) {
     world[point.getX()][point.getY()] = nullptr;
 }
 
+void World::killOrganismAt(Point point) {
+
+    //if this method is called it's already been checked that the point isn't a null pointer
+    if (world[point.getX()][point.getY()]->getSymbol() == 'h')
+        this->preyCount--;
+    else
+        this->predatorCount--;
+}
+
 void World::placeOrganismAt(Point point, Organism* movedOrganism) {
 
     if(pointEmpty(point)) {
@@ -107,12 +128,12 @@ void World::placeOrganismAt(Point point, Organism* movedOrganism) {
 
 void World::takeTurns() {
 
-    for (int i=0;i<WORLD_SIZE;i++) {
-        for (int j=0;j<WORLD_SIZE;j++) {
+    for (auto & row : world) {
+        for (auto & organism : row) {
 
-            if (world[i][j] != nullptr) {
+            if (organism != nullptr) {
 
-                world[i][j]->turn();
+                organism->turn();
             }
         }
     }
@@ -120,12 +141,12 @@ void World::takeTurns() {
 
 void World::resetFlags() {
 
-    for (int i=0;i<WORLD_SIZE;i++) {
-        for (int j=0;j<WORLD_SIZE;j++) {
+    for (auto & row : world) {
+        for (auto & organism : row) {
 
-            if (world[i][j] != nullptr) {
+            if (organism != nullptr) {
 
-                world[i][j]->setMoved(false);
+                organism->setMoved(false);
             }
         }
     }
@@ -134,13 +155,13 @@ void World::resetFlags() {
 ostream& operator<<(ostream &output, const World& world) {
 
     //print the arena:
-    for (int i = 0; i < WORLD_SIZE; i++) {
-        for (int j = 0; j < WORLD_SIZE; j++) {
+    for (const auto & row : world.world) {
+        for (auto organism : row) {
 
-            if (world.world[i][j] == nullptr) output << " " << "-" << " ";
+            if (organism == nullptr) output << " " << "-" << " ";
 
             else
-                (output << " " << world.world[i][j]->getSymbol())
+                (output << " " << organism->getSymbol())
                         << " "; //will print a 'z' for predator, 'h' for prey, '-' for null
         }
         output << endl;

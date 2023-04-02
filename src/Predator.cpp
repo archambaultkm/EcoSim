@@ -12,18 +12,9 @@ Predator::Predator(Point point, World* worldptr) : Organism(point, worldptr, sym
     hunger(0)
 {}
 
-Predator::~Predator() {}
+Predator::~Predator() = default;
 
 //------------------------------Getters/Setters--------------------------------//
-
-int Predator::getHunger() {
-    return hunger;
-}
-
-void Predator::setHunger(int hunger) {
-    this->hunger = hunger;
-}
-
 void Predator::setPossibleMoves() {
 
     PointVector possibleMoves;
@@ -44,15 +35,22 @@ void Predator::setPossibleMoves() {
 
     this->possibleMoves = possibleMoves;
 }
-
 //------------------------------Class Methods--------------------------------//
 
 void Predator::turn() {
 
     if (!moved) {
+
         setPossibleMoves();
-        move();
-        //if there's an adjacent human
+        hunger++;
+        move(); //this will reset hunger if they eat
+
+        if (hunger >= TURNS_TO_STARVE) {
+            thisWorld->killOrganismAt(location);
+            thisWorld->removeOrganismAt(location);
+            //this predator has died
+            return;
+        }
     }
 }
 
@@ -62,6 +60,7 @@ void Predator::move() {
     Point pointToMove;
     int i = 0;
 
+    //first check if they can eat
     while (!moved && i<PREDATOR_MOVE_POINTS) {
 
         pointToMove = possibleMoves.at(i);
@@ -98,11 +97,8 @@ void Predator::move() {
 void Predator::eat(Point point) {
 
     //if there's an adjacent prey, destroy them
+    thisWorld->killOrganismAt(point);
     thisWorld->removeOrganismAt(point);
     //reset hunger to 0;
     hunger = 0;
-}
-
-bool Predator::isStarving() {
-    return hunger >= TURNS_TO_STARVE;
 }

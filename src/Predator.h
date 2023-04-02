@@ -22,8 +22,6 @@ public:
     virtual ~Predator();
 
     //-------------------Getters/Setters-------------------//
-    int getHunger();
-    void setHunger(int hunger);
     bool isStarving();
     void setPossibleMoves() override;
     //-------------------Member Functions-------------------//

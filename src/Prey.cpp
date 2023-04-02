@@ -10,7 +10,7 @@
 Prey::Prey(Point point, World* worldptr) : Organism(point, worldptr, symbol)
 {}
 
-Prey::~Prey() {}
+Prey::~Prey() = default;
 
 //------------------------------Getters/Setters--------------------------------//
 

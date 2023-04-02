@@ -19,18 +19,23 @@ class World {
 private:
     Organism* world[WORLD_SIZE][WORLD_SIZE];
     static Point randomPoint();
+    int preyCount;
+    int predatorCount;
 
 public:
     //-------------------Constructors-------------------//
     World();
-
+    virtual ~World();
     //-------------------Getters/Setters-------------------//
-    Organism* getOrganism(Point point);
+    int getPreyCount() const;
+    int getPredatorCount() const;
+    bool hasDiversity() const;
     bool containsPrey(Point point);
     //-------------------Member Functions-------------------//
     void populateWorld();
     bool pointEmpty(Point point);
     void removeOrganismAt(Point point);
+    void killOrganismAt(Point Point);
     void placeOrganismAt(Point point, Organism* movedOrganism);
     void takeTurns();
     void resetFlags();
