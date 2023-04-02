@@ -7,8 +7,6 @@
 
 #include "Point.h"
 #include "GameSpecs.h"
-//#include "Prey.h"
-//#include "Predator.h"
 
 #include <iostream>
 #include <random>
@@ -20,7 +18,7 @@ class World {
 
 private:
     Organism* world[WORLD_SIZE][WORLD_SIZE];
-    Point randomPoint();
+    static Point randomPoint();
 
 public:
     //-------------------Constructors-------------------//
@@ -33,7 +31,6 @@ public:
     bool pointEmpty(Point point);
     void removeOrganismAt(Point point);
     void placeOrganismAt(Point point, Organism* movedOrganism);
-    void moveOrganisms();
     void takeTurns();
     void resetFlags();
 

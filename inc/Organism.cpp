@@ -25,3 +25,7 @@ void Organism::setPossibleMoves() {
 void Organism::setMoved(bool moved) {
     this->moved = moved;
 }
+
+bool Organism::getMoved() {
+    return moved;
+}

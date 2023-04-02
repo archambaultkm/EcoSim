@@ -34,6 +34,7 @@ public:
     //-------------------Getters/Setters-------------------//
     virtual void setPossibleMoves() = 0;
     void setMoved(bool moved);
+    bool getMoved();
     char getSymbol();
 
     //-------------------Member Functions-------------------//

@@ -27,7 +27,7 @@ Point World::randomPoint() {
     std::random_device rd;
 
     //make sure the point falls within the limits of the world
-    std::uniform_int_distribution<int> dist(0, WORLD_SIZE);
+    std::uniform_int_distribution<int> dist(0, WORLD_SIZE - 1);
 
     Point point(dist(rd), dist(rd));
 
@@ -37,69 +37,54 @@ Point World::randomPoint() {
 bool World::pointEmpty(Point point) {
 
     //need to do an out-of-bounds check before looking into the world array
-    if (point.getX() < 0 || point.getY() < 0 || point.getX() > WORLD_SIZE || point.getY() > WORLD_SIZE)
+    if (point.getX() < 0 || point.getY() < 0 || point.getX() > WORLD_SIZE - 1 || point.getY() > WORLD_SIZE - 1)
         return false;
 
     return (world[point.getX()][point.getY()] == nullptr);
 }
 
+//initializes
 void World::populateWorld() {
 
-    //TODO this needs to be done in quadrants to minimize bias
-
-    //initialize some spots with prey and predators
-    bool pointEmpty = false;
+    Point point;
+    //TODO these could be world member variables for printing out total number of organisms on a turn
+    int preyCount = 0;
+    int predatorCount = 0;
 
     //prey
-    for (int i=0;i<STARTING_PREY;i++) {
+    while (preyCount < STARTING_PREY) {
 
-        Point point;
-        pointEmpty = false;
+        point = randomPoint();
 
-        //check that the random point falls in a null spot on the world
-        while (!pointEmpty) {
+        if (pointEmpty(point)) {
 
-            point = randomPoint();
-
-            if (world[point.getX()][point.getY()] == nullptr)
-            {
-                pointEmpty = true;
-            }
+            Organism* prey = new Prey(point, this);
+            preyCount++;
+            //set them in the world
+            world[point.getX()][point.getY()] = prey;
         }
-        //make the new prey
-        Organism* prey = new Prey(point, this);
-
-        //set them in the world
-        world[point.getX()][point.getY()] = prey;
     }
 
-    //predators
-    for (int i=0;i<STARTING_PREDATORS;i++) {
+    //do the same for predators
+    while (predatorCount < STARTING_PREDATORS) {
 
-        Point point;
-        pointEmpty = false;
+        point = randomPoint();
 
-        //check that the random point falls in a null spot on the world
-        while (!pointEmpty) {
+        if (pointEmpty(point)) {
 
-            point = randomPoint();
-
-            if (world[point.getX()][point.getY()] == nullptr)
-            {
-                pointEmpty = true;
-            }
+            Organism* predator = new Predator(point, this);
+            predatorCount++;
+            //set them in the world
+            world[point.getX()][point.getY()] = predator;
         }
-        //make the new predator
-        Organism* predator = new Predator(point, this);
-
-        //set them in the world
-        world[point.getX()][point.getY()] = predator;
     }
 }
 
 void World::removeOrganismAt(Point point) {
 
-    world[point.getX()][point.getY()] = nullptr;
+    //need to make sure you're not deleting organisms that weren't able to move
+    if (world[point.getX()][point.getY()]->getMoved())
+        world[point.getX()][point.getY()] = nullptr;
 }
 
 void World::placeOrganismAt(Point point, Organism* movedOrganism) {

@@ -23,6 +23,10 @@ void Prey::setPossibleMoves() {
     possibleMoves.push_back(*new Point(location.getX(), location.getY()-1));
     possibleMoves.push_back(*new Point(location.getX(), location.getY()+1));
 
+    //make the possible moves appear in random order
+    unsigned seed = chrono::system_clock::now().time_since_epoch().count();//create random seed using system clock
+    shuffle(possibleMoves.begin(),possibleMoves.end(),default_random_engine(seed));
+
     this->possibleMoves = possibleMoves;
 }
 
@@ -31,6 +35,7 @@ void Prey::setPossibleMoves() {
 void Prey::turn() {
 
     if (!moved) {
+        setPossibleMoves();
         move();
         //recruit();
     }
@@ -38,43 +43,27 @@ void Prey::turn() {
 
 void Prey::move() {
 
-    //TODO I don't know if here or turn is the spot that makes most sense to call it
-    setPossibleMoves();
-
-    //pick a random spot out of the possibleMoves vector
-    unsigned seed = chrono::system_clock::now().time_since_epoch().count();//create random seed using system clock
-    shuffle(possibleMoves.begin(),possibleMoves.end(),default_random_engine(seed));
-
     Point previousLocation = location;
     Point pointToMove;
     int i = 0;
 
     while (!moved && i<PREY_MOVE_POINTS) {
 
+        //this will force the organism to check all available move points if one or more are blocked
         pointToMove = possibleMoves.at(i);
         i++;
 
-        int newX = pointToMove.getX();
-        int newY = pointToMove.getY();
-
-        //if the new x or y coordinate will fall out of bounds, default that coordinate to their current location
-        if (newX < 0 || newX > WORLD_SIZE) {
-            pointToMove.setX(location.getX());
-        }
-
-        if (newY < 0 || newY > WORLD_SIZE) {
-            pointToMove.setY(location.getY());
-        }
-
-        //TODO this assumes one of their possible moves is empty, make a safety net
+        //if one of their possible moves isn't empty, they'll stay in the same spot and not be marked moved
         if (thisWorld->pointEmpty(pointToMove)) {
             location = pointToMove;
-            moved = true;
+            this->moved = true;
         }
     }
 
-    thisWorld->placeOrganismAt(location, this);
-    thisWorld->removeOrganismAt(previousLocation);
+    if (this->moved) {
+        thisWorld->placeOrganismAt(location, this);
+        thisWorld->removeOrganismAt(previousLocation);
+    }
 }
 
 void Prey::recruit() {
