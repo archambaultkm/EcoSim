@@ -8,10 +8,11 @@
 #include "Organism.h"
 
 #define PREY_MOVE_POINTS 4
+#define PREY_TURNS_TO_REPRODUCE 3
 
 class Prey : public Organism {
 private:
-    static const char symbol = 'h';
+    static const char symbol = PREY_SYMBOL;
 
 public:
 
@@ -25,7 +26,7 @@ public:
     //-------------------Member Functions-------------------//
     void turn() override;
     void move() override;
-    void recruit();
+    void reproduce() override;
 };
 
 #endif //ECOSIM_PREY_H

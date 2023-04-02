@@ -8,7 +8,9 @@
 
 //--------------------------------Constructors--------------------------------//
 Prey::Prey(Point point, World* worldptr) : Organism(point, worldptr, symbol)
-{}
+{
+    thisWorld->incPreyCount();
+}
 
 Prey::~Prey() = default;
 
@@ -34,10 +36,16 @@ void Prey::setPossibleMoves() {
 
 void Prey::turn() {
 
+    turnsSinceReproduced++;
+
     if (!moved) {
         setPossibleMoves();
         move();
-        //recruit();
+
+        if (turnsSinceReproduced == PREY_TURNS_TO_REPRODUCE) {
+            setPossibleMoves();
+            reproduce();
+        }
     }
 }
 
@@ -62,11 +70,28 @@ void Prey::move() {
 
     if (this->moved) {
         thisWorld->placeOrganismAt(location, this);
-        thisWorld->removeOrganismAt(previousLocation);
+        thisWorld->removeOrganismAt(previousLocation, false);
     }
 }
 
-void Prey::recruit() {
+void Prey::reproduce() {
 
     //every couple of turns they need to spawn a new human/prey in an adjacent(moveable)space.
+    Point pointToReproduce;
+    int i=0;
+
+    while (turnsSinceReproduced !=0 && i<PREY_MOVE_POINTS) {
+        //cycle through the predator's adjacent spots for a prey to transform
+        pointToReproduce = possibleMoves.at(i);
+        i++;
+
+        if (thisWorld->pointEmpty(pointToReproduce)) {
+
+            Organism* baby = new Prey(pointToReproduce, thisWorld);
+            thisWorld->placeOrganismAt(pointToReproduce, baby);
+        }
+    }
+
+    //for prey the reproduction counter needs to be reset regardless of if they succeeded
+    turnsSinceReproduced = 0;
 }

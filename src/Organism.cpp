@@ -7,7 +7,7 @@
 //--------------------------------Constructors--------------------------------//
 
 Organism::Organism(Point point, World* world, char symbol):
-isAlive(true), location(point), thisWorld(world), symbol(symbol), moved(false)
+isAlive(true), location(point), thisWorld(world), symbol(symbol), turnsSinceReproduced(0), moved(false)
 {}
 
 Organism::~Organism() = default;

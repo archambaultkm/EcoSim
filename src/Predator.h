@@ -9,11 +9,12 @@
 
 #define PREDATOR_MOVE_POINTS 8
 #define TURNS_TO_STARVE 3
+#define PREDATOR_TURNS_TO_REPRODUCE 8
 
 class Predator : public Organism {
 private:
+    const static char symbol = PREDATOR_SYMBOL;
     int hunger;
-    const static char symbol = 'z';
 
 public:
 
@@ -22,11 +23,11 @@ public:
     virtual ~Predator();
 
     //-------------------Getters/Setters-------------------//
-    bool isStarving();
     void setPossibleMoves() override;
     //-------------------Member Functions-------------------//
     void turn() override;
     void move() override;
+    void reproduce() override;
     void eat(Point point);
 };
 

@@ -5,12 +5,15 @@
 #include <random>
 #include "Predator.h"
 #include "World.h"
+#include "Prey.h"
 
 //--------------------------------Constructors--------------------------------//
 
 Predator::Predator(Point point, World* worldptr) : Organism(point, worldptr, symbol),
     hunger(0)
-{}
+{
+    thisWorld->incPredatorCount();
+}
 
 Predator::~Predator() = default;
 
@@ -41,14 +44,25 @@ void Predator::turn() {
 
     if (!moved) {
 
-        setPossibleMoves();
         hunger++;
+        turnsSinceReproduced++;
+
+        setPossibleMoves();
         move(); //this will reset hunger if they eat
 
+        if (turnsSinceReproduced >= PREDATOR_TURNS_TO_REPRODUCE) {
+            setPossibleMoves();
+            reproduce();
+        }
+
         if (hunger >= TURNS_TO_STARVE) {
-            thisWorld->killOrganismAt(location);
-            thisWorld->removeOrganismAt(location);
-            //this predator has died
+            //this predator has died :(
+            thisWorld->removeOrganismAt(location, true);
+
+            //this predator reverts to a prey
+            Organism* prey = new Prey(location, thisWorld);
+            thisWorld->placeOrganismAt(location, prey);
+
             return;
         }
     }
@@ -90,15 +104,36 @@ void Predator::move() {
 
     if (this->moved) {
         thisWorld->placeOrganismAt(location, this);
-        thisWorld->removeOrganismAt(previousLocation);
+        thisWorld->removeOrganismAt(previousLocation, false);
     }
 }
 
 void Predator::eat(Point point) {
 
     //if there's an adjacent prey, destroy them
-    thisWorld->killOrganismAt(point);
-    thisWorld->removeOrganismAt(point);
+    thisWorld->removeOrganismAt(point, true);
     //reset hunger to 0;
     hunger = 0;
+}
+
+void Predator::reproduce() {
+
+    Point pointToReproduce;
+    int i=0;
+
+    while (turnsSinceReproduced !=0 && i<PREDATOR_MOVE_POINTS) {
+        //cycle through the predator's adjacent spots for a prey to transform
+        pointToReproduce = possibleMoves.at(i);
+        i++;
+
+        if (thisWorld->containsPrey(pointToReproduce)) {
+
+            thisWorld->removeOrganismAt(pointToReproduce, true);
+
+            Organism* baby = new Predator(pointToReproduce, thisWorld);
+            thisWorld->placeOrganismAt(pointToReproduce, baby);
+
+            turnsSinceReproduced = 0;
+        }
+    }
 }

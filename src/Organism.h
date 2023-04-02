@@ -19,6 +19,7 @@ protected:
 
     World* thisWorld;
     bool isAlive;
+    int turnsSinceReproduced;
     bool moved;
     Point location;
     PointVector possibleMoves;
@@ -40,6 +41,7 @@ public:
     //-------------------Member Functions-------------------//
     virtual void turn() = 0;
     virtual void move() = 0;
+    virtual void reproduce() = 0;
 };
 
 #endif //ECOSIM_ORGANISM_H

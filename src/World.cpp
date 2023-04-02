@@ -27,8 +27,16 @@ int World::getPreyCount() const {
     return preyCount;
 }
 
+void World::incPreyCount() {
+    preyCount++;
+}
+
 int World::getPredatorCount() const {
     return predatorCount;
+}
+
+void World::incPredatorCount() {
+    predatorCount++;
 }
 
 bool World::hasDiversity() const {
@@ -83,7 +91,6 @@ void World::populateWorld() {
         if (pointEmpty(point)) {
 
             Organism* prey = new Prey(point, this);
-            preyCount++;
             //set them in the world
             world[point.getX()][point.getY()] = prey;
         }
@@ -97,33 +104,28 @@ void World::populateWorld() {
         if (pointEmpty(point)) {
 
             Organism* predator = new Predator(point, this);
-            predatorCount++;
             //set them in the world
             world[point.getX()][point.getY()] = predator;
         }
     }
 }
 
-void World::removeOrganismAt(Point point) {
+void World::removeOrganismAt(Point point, bool kill) {
+
+    if (kill) {
+        if (world[point.getX()][point.getY()]->getSymbol() == PREY_SYMBOL)
+            this->preyCount--;
+        else
+            this->predatorCount--;
+    }
 
     world[point.getX()][point.getY()] = nullptr;
 }
 
-void World::killOrganismAt(Point point) {
-
-    //if this method is called it's already been checked that the point isn't a null pointer
-    if (world[point.getX()][point.getY()]->getSymbol() == 'h')
-        this->preyCount--;
-    else
-        this->predatorCount--;
-}
-
 void World::placeOrganismAt(Point point, Organism* movedOrganism) {
 
-    if(pointEmpty(point)) {
-        delete world[point.getX()][point.getY()];
-        world[point.getX()][point.getY()] = movedOrganism;
-    }
+    //delete world[point.getX()][point.getY()];
+    world[point.getX()][point.getY()] = movedOrganism;
 }
 
 void World::takeTurns() {

@@ -28,14 +28,15 @@ public:
     virtual ~World();
     //-------------------Getters/Setters-------------------//
     int getPreyCount() const;
+    void incPreyCount();
     int getPredatorCount() const;
+    void incPredatorCount();
     bool hasDiversity() const;
     bool containsPrey(Point point);
     //-------------------Member Functions-------------------//
     void populateWorld();
     bool pointEmpty(Point point);
-    void removeOrganismAt(Point point);
-    void killOrganismAt(Point Point);
+    void removeOrganismAt(Point point, bool kill);
     void placeOrganismAt(Point point, Organism* movedOrganism);
     void takeTurns();
     void resetFlags();

@@ -11,4 +11,7 @@
 #define STARTING_PREY 100
 #define STARTING_PREDATORS 5
 
+#define PREY_SYMBOL 'h'
+#define PREDATOR_SYMBOL 'z'
+
 #endif //ECOSIM_GAMESPECS_H
