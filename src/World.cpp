@@ -19,6 +19,18 @@ World::World() {
     }
 }
 
+//------------------------------Getters/Setters--------------------------------//
+Organism* World::getOrganism(Point point) {
+    return world[point.getX()][point.getY()];
+}
+
+bool World::containsPrey(Point point) {
+    if (world[point.getX()][point.getY()] != nullptr)
+        return (world[point.getX()][point.getY()]->getSymbol() == 'h');
+
+    return false;
+}
+
 //------------------------------Class Methods--------------------------------//
 
 Point World::randomPoint() {
@@ -82,9 +94,7 @@ void World::populateWorld() {
 
 void World::removeOrganismAt(Point point) {
 
-    //need to make sure you're not deleting organisms that weren't able to move
-    if (world[point.getX()][point.getY()]->getMoved())
-        world[point.getX()][point.getY()] = nullptr;
+    world[point.getX()][point.getY()] = nullptr;
 }
 
 void World::placeOrganismAt(Point point, Organism* movedOrganism) {
@@ -138,3 +148,4 @@ ostream& operator<<(ostream &output, const World& world) {
 
     return output;
 }
+

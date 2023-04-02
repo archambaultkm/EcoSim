@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../inc/World.h"
+#include "World.h"
 
 #include <thread>
 
@@ -20,7 +20,7 @@ int main() {
         world->resetFlags();
 
         //"clear screen"
-        cout << "\n";
+        cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
     }
 
     return 0;

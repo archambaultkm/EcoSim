@@ -53,7 +53,6 @@ void Predator::turn() {
         setPossibleMoves();
         move();
         //if there's an adjacent human
-        //eat
     }
 }
 
@@ -65,11 +64,25 @@ void Predator::move() {
 
     while (!moved && i<PREDATOR_MOVE_POINTS) {
 
+        pointToMove = possibleMoves.at(i);
+        i++;
+
+        if (thisWorld->containsPrey(pointToMove)) {
+            eat(pointToMove);
+            location = pointToMove;
+            this->moved = true;
+        }
+    }
+
+    //TODO having two of the same loop feels janky see if you can fix this
+    i = 0;
+    //if eating wasn't possible, try to just move
+    while (!moved && i<PREDATOR_MOVE_POINTS) {
+
         //this will force the organism to check all available move points if one or more are blocked
         pointToMove = possibleMoves.at(i);
         i++;
 
-        //if one of their possible moves isn't empty, they'll stay in the same spot and not be marked moved
         if (thisWorld->pointEmpty(pointToMove)) {
             location = pointToMove;
             this->moved = true;
@@ -82,11 +95,11 @@ void Predator::move() {
     }
 }
 
-void Predator::eat() {
+void Predator::eat(Point point) {
 
-    //if there's an adjacent prey, eat them
-
-    //if you eat, reset hunger to 0;
+    //if there's an adjacent prey, destroy them
+    thisWorld->removeOrganismAt(point);
+    //reset hunger to 0;
     hunger = 0;
 }
 

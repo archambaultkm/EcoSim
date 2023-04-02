@@ -25,7 +25,8 @@ public:
     World();
 
     //-------------------Getters/Setters-------------------//
-
+    Organism* getOrganism(Point point);
+    bool containsPrey(Point point);
     //-------------------Member Functions-------------------//
     void populateWorld();
     bool pointEmpty(Point point);

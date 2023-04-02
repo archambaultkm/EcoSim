@@ -29,7 +29,7 @@ public:
     //-------------------Member Functions-------------------//
     void turn() override;
     void move() override;
-    void eat();
+    void eat(Point point);
 };
 
 
