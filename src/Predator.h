@@ -29,6 +29,8 @@ public:
     void move() override;
     void reproduce() override;
     void eat(Point point);
+
+    friend ostream& operator<<(ostream &output, const Predator& predator);
 };
 
 

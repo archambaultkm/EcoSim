@@ -25,9 +25,8 @@ void Prey::setPossibleMoves() {
     possibleMoves.push_back(*new Point(location.getX(), location.getY()-1));
     possibleMoves.push_back(*new Point(location.getX(), location.getY()+1));
 
-    //make the possible moves appear in random order
-    unsigned seed = chrono::system_clock::now().time_since_epoch().count();//create random seed using system clock
-    shuffle(possibleMoves.begin(),possibleMoves.end(),default_random_engine(seed));
+    std::random_device rd;
+    shuffle(possibleMoves.begin(),possibleMoves.end(), rd);
 
     this->possibleMoves = possibleMoves;
 }
@@ -87,6 +86,8 @@ void Prey::reproduce() {
 
         if (thisWorld->pointEmpty(pointToReproduce)) {
 
+            turnsSinceReproduced = 0;
+
             Organism* baby = new Prey(pointToReproduce, thisWorld);
             thisWorld->placeOrganismAt(pointToReproduce, baby);
         }
@@ -94,4 +95,13 @@ void Prey::reproduce() {
 
     //for prey the reproduction counter needs to be reset regardless of if they succeeded
     turnsSinceReproduced = 0;
+}
+
+ostream& operator<<(ostream &output, const Prey& prey) {
+
+    const std::string reset("\033[0m");
+    const std::string yellow("\033[1;33m");
+
+    output << " " << yellow << Prey::symbol << reset << " ";
+    return output;
 }

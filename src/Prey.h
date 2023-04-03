@@ -27,6 +27,8 @@ public:
     void turn() override;
     void move() override;
     void reproduce() override;
+
+    friend ostream& operator<<(ostream &output, const Prey& prey);
 };
 
 #endif //ECOSIM_PREY_H

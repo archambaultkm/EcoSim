@@ -49,7 +49,7 @@ bool World::containsPrey(Point point) {
         return false;
 
     if (world[point.getX()][point.getY()] != nullptr)
-        return (world[point.getX()][point.getY()]->getSymbol() == 'h');
+        return (world[point.getX()][point.getY()]->getSymbol() == PREY_SYMBOL);
 
     return false;
 }
@@ -154,6 +154,7 @@ void World::resetFlags() {
     }
 }
 
+
 ostream& operator<<(ostream &output, const World& world) {
 
     //print the arena:
@@ -163,8 +164,7 @@ ostream& operator<<(ostream &output, const World& world) {
             if (organism == nullptr) output << " " << "-" << " ";
 
             else
-                (output << " " << organism->getSymbol())
-                        << " "; //will print a 'z' for predator, 'h' for prey, '-' for null
+                output << *organism;
         }
         output << endl;
     }

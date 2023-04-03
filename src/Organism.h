@@ -8,6 +8,7 @@
 #include "GameSpecs.h"
 #include "Point.h"
 
+#include <iostream>
 #include <vector>
 using namespace std;
 
@@ -42,6 +43,8 @@ public:
     virtual void turn() = 0;
     virtual void move() = 0;
     virtual void reproduce() = 0;
+
+    friend ostream& operator<<(ostream &output, const Organism& organism);
 };
 
 #endif //ECOSIM_ORGANISM_H
