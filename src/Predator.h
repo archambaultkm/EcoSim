@@ -13,7 +13,7 @@
 
 class Predator : public Organism {
 private:
-    const static char symbol = PREDATOR_SYMBOL;
+    static const char symbol = PREDATOR_SYMBOL;
     int hunger;
 
 public:
@@ -30,6 +30,5 @@ public:
     void reproduce() override;
     void eat(Point point);
 };
-
 
 #endif //ECOSIM_PREDATOR_H

@@ -15,7 +15,6 @@ using namespace std;
 class Organism;
 
 class World {
-
 private:
     Organism* world[WORLD_SIZE][WORLD_SIZE];
     static Point randomPoint();
