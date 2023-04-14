@@ -33,7 +33,7 @@ public:
     void incPredatorCount();
     bool hasDiversity() const;
     bool containsPrey(Point point);
-    //-------------------Member Functions-------------------//
+    //-------------------Class Methods-------------------//
     void populateWorld();
     bool pointEmpty(Point point);
     void removeOrganismAt(Point point, bool kill);

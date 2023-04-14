@@ -18,10 +18,6 @@ char Organism::getSymbol() {
     return symbol;
 }
 
-void Organism::setPossibleMoves() {
-    this->possibleMoves = possibleMoves;
-}
-
 void Organism::setMoved(bool moved) {
     this->moved = moved;
 }

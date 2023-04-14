@@ -24,13 +24,11 @@ public:
 
     //-------------------Getters/Setters-------------------//
     void setPossibleMoves() override;
-    //-------------------Member Functions-------------------//
+    //-------------------Class Methods-------------------//
     void turn() override;
     void move() override;
     void reproduce() override;
     void eat(Point point);
-
-    friend ostream& operator<<(ostream &output, const Predator& predator);
 };
 
 

@@ -23,12 +23,10 @@ public:
     //-------------------Getters/Setters-------------------//
     void setPossibleMoves() override;
 
-    //-------------------Member Functions-------------------//
+    //-------------------Class Methods-------------------//
     void turn() override;
     void move() override;
     void reproduce() override;
-
-    friend ostream& operator<<(ostream &output, const Prey& prey);
 };
 
 #endif //ECOSIM_PREY_H

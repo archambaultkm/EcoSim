@@ -39,7 +39,7 @@ public:
     bool getMoved();
     char getSymbol();
 
-    //-------------------Member Functions-------------------//
+    //-------------------Class Methods-------------------//
     virtual void turn() = 0;
     virtual void move() = 0;
     virtual void reproduce() = 0;

@@ -7,22 +7,15 @@
 
 #include <vector>
 
-//TODO is this a class or a struct?
-class Point {
-private:
+struct Point {
+public:
     int x;
     int y;
-
-public:
     Point();
     Point(int x, int y);
-    int getX();
-    void setX(int x);
-    int getY();
-    void setY(int y);
     friend bool operator ==(const Point& a, const Point& b);
 };
 
-typedef std::vector<Point> PointVector; //or PointList?
+typedef std::vector<Point> PointVector;
 
 #endif //ECOSIM_POINT_H

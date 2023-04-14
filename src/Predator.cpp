@@ -22,19 +22,21 @@ void Predator::setPossibleMoves() {
 
     PointVector possibleMoves;
 
-    possibleMoves.push_back(*new Point(location.getX()-1, location.getY()));
-    possibleMoves.push_back(*new Point(location.getX()+1, location.getY()));
-    possibleMoves.push_back(*new Point(location.getX(), location.getY()-1));
-    possibleMoves.push_back(*new Point(location.getX(), location.getY()+1));
+    possibleMoves.push_back(*new Point(location.x-1, location.y));
+    possibleMoves.push_back(*new Point(location.x+1, location.y));
+    possibleMoves.push_back(*new Point(location.x, location.y-1));
+    possibleMoves.push_back(*new Point(location.x, location.y+1));
     //predators only get diagonal movements
-    possibleMoves.push_back(*new Point(location.getX()-1, location.getY()-1));
-    possibleMoves.push_back(*new Point(location.getX()+1, location.getY()+1));
-    possibleMoves.push_back(*new Point(location.getX()-1, location.getY()+1));
-    possibleMoves.push_back(*new Point(location.getX()+1, location.getY()-1));
+    possibleMoves.push_back(*new Point(location.x-1, location.y-1));
+    possibleMoves.push_back(*new Point(location.x+1, location.y+1));
+    possibleMoves.push_back(*new Point(location.x-1, location.y+1));
+    possibleMoves.push_back(*new Point(location.x+1, location.y-1));
 
     //make the possible moves appear in random order
     std::random_device rd;
-    shuffle(possibleMoves.begin(),possibleMoves.end(), rd);
+    //this will produce a different shuffle sequence each time it's run (more random)
+    auto rng = std::default_random_engine { rd() };
+    shuffle(possibleMoves.begin(),possibleMoves.end(), rng);
 
     this->possibleMoves = possibleMoves;
 }
@@ -136,13 +138,4 @@ void Predator::reproduce() {
             turnsSinceReproduced = 0;
         }
     }
-}
-
-ostream& operator<<(ostream &output, const Predator& predator) {
-
-    const std::string reset("\033[0m");
-    const std::string red("\033[0;31m");
-
-    output << " " << red << Predator::symbol << reset << " ";
-    return output;
 }

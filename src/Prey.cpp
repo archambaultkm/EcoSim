@@ -20,13 +20,16 @@ void Prey::setPossibleMoves() {
 
     PointVector possibleMoves;
 
-    possibleMoves.push_back(*new Point(location.getX()-1, location.getY()));
-    possibleMoves.push_back(*new Point(location.getX()+1, location.getY()));
-    possibleMoves.push_back(*new Point(location.getX(), location.getY()-1));
-    possibleMoves.push_back(*new Point(location.getX(), location.getY()+1));
+    //TODO directions should be an enum
+    possibleMoves.push_back(*new Point(location.x-1, location.y));
+    possibleMoves.push_back(*new Point(location.x+1, location.y));
+    possibleMoves.push_back(*new Point(location.x, location.y-1));
+    possibleMoves.push_back(*new Point(location.x, location.y+1));
 
     std::random_device rd;
-    shuffle(possibleMoves.begin(),possibleMoves.end(), rd);
+    //this will produce a different shuffle sequence each time it's run (more random)
+    auto rng = std::default_random_engine { rd() };
+    shuffle(possibleMoves.begin(),possibleMoves.end(), rng);
 
     this->possibleMoves = possibleMoves;
 }
@@ -73,6 +76,7 @@ void Prey::move() {
     }
 }
 
+//method only called if they're allowed to try to reproduce that turn
 void Prey::reproduce() {
 
     //every couple of turns they need to spawn a new human/prey in an adjacent(moveable)space.
@@ -97,11 +101,11 @@ void Prey::reproduce() {
     turnsSinceReproduced = 0;
 }
 
-ostream& operator<<(ostream &output, const Prey& prey) {
-
-    const std::string reset("\033[0m");
-    const std::string yellow("\033[1;33m");
-
-    output << " " << yellow << Prey::symbol << reset << " ";
-    return output;
-}
+//ostream& operator<<(ostream &output, const Prey& prey) {
+//
+//    const std::string reset("\033[0m");
+//    const std::string yellow("\033[1;33m");
+//
+//    output << " " << yellow << Prey::symbol << reset << " ";
+//    return output;
+//}

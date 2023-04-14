@@ -45,11 +45,11 @@ bool World::hasDiversity() const {
 
 bool World::containsPrey(Point point) {
 
-    if (point.getX() < 0 || point.getY() < 0 || point.getX() > WORLD_SIZE - 1 || point.getY() > WORLD_SIZE - 1)
+    if (point.x < 0 || point.y < 0 || point.x > WORLD_SIZE - 1 || point.y > WORLD_SIZE - 1)
         return false;
 
-    if (world[point.getX()][point.getY()] != nullptr)
-        return (world[point.getX()][point.getY()]->getSymbol() == PREY_SYMBOL);
+    if (world[point.x][point.y] != nullptr)
+        return (world[point.x][point.y]->getSymbol() == PREY_SYMBOL);
 
     return false;
 }
@@ -72,10 +72,10 @@ Point World::randomPoint() {
 bool World::pointEmpty(Point point) {
 
     //need to do an out-of-bounds check before looking into the world array
-    if (point.getX() < 0 || point.getY() < 0 || point.getX() > WORLD_SIZE - 1 || point.getY() > WORLD_SIZE - 1)
+    if (point.x < 0 || point.y < 0 || point.x > WORLD_SIZE - 1 || point.y > WORLD_SIZE - 1)
         return false;
 
-    return (world[point.getX()][point.getY()] == nullptr);
+    return (world[point.x][point.y] == nullptr);
 }
 
 //initializes
@@ -92,7 +92,7 @@ void World::populateWorld() {
 
             Organism* prey = new Prey(point, this);
             //set them in the world
-            world[point.getX()][point.getY()] = prey;
+            world[point.x][point.y] = prey;
         }
     }
 
@@ -105,7 +105,7 @@ void World::populateWorld() {
 
             Organism* predator = new Predator(point, this);
             //set them in the world
-            world[point.getX()][point.getY()] = predator;
+            world[point.x][point.y] = predator;
         }
     }
 }
@@ -113,19 +113,19 @@ void World::populateWorld() {
 void World::removeOrganismAt(Point point, bool kill) {
 
     if (kill) {
-        if (world[point.getX()][point.getY()]->getSymbol() == PREY_SYMBOL)
+        if (world[point.x][point.y]->getSymbol() == PREY_SYMBOL)
             this->preyCount--;
         else
             this->predatorCount--;
     }
 
-    world[point.getX()][point.getY()] = nullptr;
+    world[point.x][point.y] = nullptr;
 }
 
 void World::placeOrganismAt(Point point, Organism* movedOrganism) {
 
     //delete world[point.getX()][point.getY()];
-    world[point.getX()][point.getY()] = movedOrganism;
+    world[point.x][point.y] = movedOrganism;
 }
 
 void World::takeTurns() {
