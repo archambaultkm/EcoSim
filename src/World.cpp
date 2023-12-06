@@ -43,6 +43,7 @@ bool World::hasDiversity() const {
     return (preyCount > 0 && predatorCount > 0);
 }
 
+//used by the predator class to check if they can eat/reproduce
 bool World::containsPrey(Point point) {
 
     if (point.x < 0 || point.y < 0 || point.x > WORLD_SIZE - 1 || point.y > WORLD_SIZE - 1)

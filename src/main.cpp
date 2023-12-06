@@ -13,13 +13,12 @@ int main() {
     world->populateWorld();
 
     while (world->hasDiversity()) {
-        //here needs to loop
         cout << *world;
         cout << "Generation: " << generation;
         cout << "  Prey remaining: " << world->getPreyCount();
         cout << "  Predators remaining: " << world->getPredatorCount() << endl;
 
-        this_thread::sleep_for(0.3s);
+        this_thread::sleep_for(0.5s);
 
         world->takeTurns();
         world->resetFlags();
